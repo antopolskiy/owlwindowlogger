@@ -6,6 +6,7 @@ Originally from https://github.com/seanbuscay
 import wx
 import wx.adv
 import os
+import sys
 import time
 import psutil
 import win32api
@@ -31,10 +32,16 @@ class TaskBarApp(wx.Frame):
         wx.Frame.__init__(self, parent, -1, title, size=(1, 1),
                           style=wx.FRAME_NO_TASKBAR | wx.NO_FULL_REPAINT_ON_RESIZE)
 
-        self.enabled_icon = wx.Icon(
-                os.path.join(os.environ.get('_MEIPASS2', os.path.abspath('.')), 'logon.ico'))
-        self.disabled_icon = wx.Icon(
-                os.path.join(os.environ.get('_MEIPASS2', os.path.abspath('.')), 'logoff.ico'))
+        if getattr(sys, 'frozen', False):
+            self.enabled_icon = wx.Icon(
+                os.path.join(sys._MEIPASS, 'logon.ico'))
+            self.disabled_icon = wx.Icon(
+                os.path.join(sys._MEIPASS, 'logoff.ico'))
+        else:
+            self.enabled_icon = wx.Icon(
+                os.path.join(os.path.abspath(), 'logon.ico'))
+            self.disabled_icon = wx.Icon(
+                os.path.join(os.path.abspath(), 'logoff.ico'))
 
         self.tbicon = wx.adv.TaskBarIcon()
         self.tbicon.SetIcon(self.enabled_icon, 'Logging')
@@ -141,6 +148,9 @@ class TaskBarApp(wx.Frame):
         self.data = {}
 
         try:
+            self.data['user'] = os.environ.get('USERNAME', '_NOUSER_')
+            self.data['hostname'] = os.environ.get('COMPUTERNAME', '_NOHOSTNAME_')
+
             active_hwnd = GetForegroundWindow()
             self.data['hwnd'] = active_hwnd
             self.data['window_title'] = GetWindowText(active_hwnd)

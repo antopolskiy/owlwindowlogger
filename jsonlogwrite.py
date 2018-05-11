@@ -13,3 +13,8 @@ def write(data, logfile):
     print(logfile, text)
     with open(logfile, 'a') as fp:
         fp.write(text + '\n')
+
+
+# post to google forms:
+# https://docs.google.com/forms/d/e/1FAIpQLSfL1-rJig0nTvT3MdM1hZk34mJlZ_FUDPKD2MjWe-r1YdDfFA/viewform?usp=sf_link
+# https://goo.gl/forms/Di4ffwYmlFgq42C23
