@@ -101,6 +101,7 @@ class TaskBarApp(wx.Frame):
     def StopTimer(self):
         try:
             self.timer.Stop()
+            self.data['end_timestamp'] = str(datetime.datetime.now())
             logwrite.write(self.data, self.logfile)
             logwrite.write(dict(log_message="Timer stopped"), self.logfile)
             self.new_active_window()
@@ -131,9 +132,9 @@ class TaskBarApp(wx.Frame):
         active_hwnd = GetForegroundWindow()
         window_title = GetWindowText(active_hwnd)
         if self.data['hwnd'] != active_hwnd or self.data['window_title'] != window_title:
-            self.data['end_timestamp'] = str(datetime.datetime.now())
+            self.data['end_timestamp'] = str(datetime.datetime.fromtimestamp(nowtime))
             logwrite.write(self.data, self.logfile)
-            self.new_active_window()
+            self.new_active_window(datetime.datetime.fromtimestamp(nowtime))
 
         # update the log filename every 120s
         self.logger_check += 1
@@ -141,7 +142,7 @@ class TaskBarApp(wx.Frame):
             self.update_logfile()
             self.logger_check = 0
 
-    def new_active_window(self):
+    def new_active_window(self, nowtime=None):
         """Capture the info about the newly active window so when it changes
         we can output how long it was active
         """
@@ -159,7 +160,7 @@ class TaskBarApp(wx.Frame):
             self.data['process_name'] = procinfo.name()
             self.data['pid'] = procinfo.pid
             self.data['idle_seconds'] = 0.0
-            self.data['start_timestamp'] = str(datetime.datetime.now())
+            self.data['start_timestamp'] = str(datetime.datetime.now() if nowtime is None else nowtime)
         except Exception as e:
             print("Caught exception trying to get active window info: " + str(e))
             self.data = {}
