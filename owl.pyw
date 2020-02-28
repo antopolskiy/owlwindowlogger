@@ -1,4 +1,3 @@
-
 """
 Originally from https://github.com/seanbuscay
 """
@@ -39,9 +38,9 @@ class TaskBarApp(wx.Frame):
                 os.path.join(sys._MEIPASS, 'logoff.ico'))
         else:
             self.enabled_icon = wx.Icon(
-                os.path.join(os.path.abspath(), 'logon.ico'))
+                os.path.abspath('logon.ico'))
             self.disabled_icon = wx.Icon(
-                os.path.join(os.path.abspath(), 'logoff.ico'))
+                os.path.abspath('logoff.ico'))
 
         self.tbicon = wx.adv.TaskBarIcon()
         self.tbicon.SetIcon(self.enabled_icon, 'Logging')
@@ -177,7 +176,6 @@ class MyApp(wx.App):
 def main():
     app = MyApp(0)
     app.MainLoop()
-
 
 if __name__ == '__main__':
     main()
