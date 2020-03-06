@@ -14,13 +14,14 @@ from win32process import GetWindowThreadProcessId
 import datetime
 import jsonlogwrite as logwrite
 
-# Dont consider it idle if there hasnt been input for this long
+# Dont consider it idle if there hasn't been input for this long
 MIN_IDLE_SECONDS = 30
-LOG_PATH = os.path.expanduser('~/owl_logs')
+LOG_PATH = os.path.expanduser('logs/')
+TIMER_MS = 200
 
 
 def process_info(window_handle):
-    "Return process info about a window handle id"
+    """Return process info about a window handle id"""
     pprocess = GetWindowThreadProcessId(window_handle)
     p = psutil.Process(pprocess[1])
     return p
@@ -47,12 +48,12 @@ class TaskBarApp(wx.Frame):
         self.tbicon.Bind(wx.adv.EVT_TASKBAR_LEFT_DCLICK, self.OnTaskBarLeftDClick)
         self.tbicon.Bind(wx.adv.EVT_TASKBAR_RIGHT_UP, self.OnTaskBarRightClick)
 
-        # 1s repeating timer
+        # repeating timer
         self.timer_running = True
         self.timer_id = wx.NewId()
         self.Bind(wx.EVT_TIMER, self.on_timer, id=self.timer_id)
         self.timer = wx.Timer(self, self.timer_id)
-        self.timer.Start(1000)
+        self.timer.Start(TIMER_MS)
 
         self.Show(True)
         self.last_input = 0
@@ -71,7 +72,7 @@ class TaskBarApp(wx.Frame):
         self.logfile = os.path.join(LOG_PATH, datetime.datetime.now().strftime('%Y%m%d.json'))
 
     def OnTaskBarLeftDClick(self, evt):
-        "Double click toggles logging on/off"
+        """Double click toggles logging on/off"""
         if self.timer_running:
             self.StopTimer()
             self.timer_running = False
@@ -83,6 +84,7 @@ class TaskBarApp(wx.Frame):
             self.tbicon.SetIcon(self.enabled_icon, 'Logging')
 
     def OnTaskBarRightClick(self, evt):
+        """Right click in the taskbar shuts down the application"""
         logwrite.write(dict(log_message="user shutdown, right clicked"), self.logfile)
         self.StopTimer()
         self.tbicon.Destroy()
@@ -91,7 +93,7 @@ class TaskBarApp(wx.Frame):
 
     def RestartTimer(self):
         try:
-            self.timer.Start(1000)
+            self.timer.Start(TIMER_MS)
             logwrite.write(dict(log_message="Restarting timer"), self.logfile)
             self.new_active_window()
         except Exception as e:
@@ -176,6 +178,7 @@ class MyApp(wx.App):
 def main():
     app = MyApp(0)
     app.MainLoop()
+
 
 if __name__ == '__main__':
     main()
