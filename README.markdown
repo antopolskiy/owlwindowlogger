@@ -1,6 +1,50 @@
-# owlwindowlogger -- An active window logger. 
-Built in Python. Logs to JSON.
-=============================================================================
+# Active window logger and screen capture
+
+## Installation
+
+1. Head to [Releases](https://github.com/antopolskiy/owlwindowlogger/releases) page, 
+and find the latest version.
+2. Download `logger.exe` file, and put it in a separate folder on your Windows PC.
+3. Start `logger.exe`. Depending on the system setting or antivirus, you may be asked 
+for permission to run the file, or it may take a long time for the first time it starts 
+(some anti-viruses check software when it first starts).
+
+## Working with `logger.exe`
+When started, `logger.exe` will open a small GUI window.
+
+![GUI window][GUI]
+
+At this moment, the logging has automatically started. The window can be moved or minimized,
+It will not affect logging.
+
+In the folder with `logger.exe`, two folders were created: `captures` and `logs`. `captures` 
+contains PNG files, which are produced at 2 FPS. `logs` contains `.json` file(s).
+
+When logging is to be stopped, simply press "Stop logging" button on the GUI. This will stop
+logging and capturing and close the window. To restart logging, simply restart the application.
+
+## Some things to keep in mind
+* This is an initial alpha version, so it has only bare-bones functionality.
+* It is best to use a single monitor. If you have multiple monitors, currently 
+the application will capture only the main screen. 
+* Make sure that you have at least 1 Gb on the hard drive for screenshots per 
+1 hour of recording.
+* If there are large photos or videos on the screen, it will drastically increase 
+the size of the screen capture files; to reduce it, avoid having photographic 
+content for prolonged times during logging (e.g. photographic desktop background, 
+full screen videos, photos, etc).
+
+## Data sharing
+To share data, archive folders `captures` and `logs` and upload resulting archive to the cloud 
+(e.g. Google Drive).
+
+## Issues
+Please report issues in working with software, as well as ideas regarding improvements on 
+[Issues page](https://github.com/antopolskiy/owlwindowlogger/issues) for better tracking.
+
+[GUI]: images/v0.1.0_GUI.PNG "Logo Title Text 2"
+
+<!---
 
 ## PURPOSE
 
@@ -11,6 +55,7 @@ computers better track what they spent their day working on.
 
 1. To work on Windows, OSX, and Linux
 2. To use very little memory while tracking activity. 
+
 
 ## DESCRIPTION
 
@@ -150,3 +195,4 @@ Code samples and posts that have helped in developing OWL Window Logger:
 See: https://github.com/seanbuscay/owlwindowlogger/issues?labels=known+issue
 
 ## TODOS AND DEV NOTES
+-->
