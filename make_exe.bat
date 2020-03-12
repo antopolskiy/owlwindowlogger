@@ -1,1 +1,6 @@
-pyinstaller -w -F --add-data logon.ico:. --add-data logoff.ico:. -i owl.ico owl.pyw
+rm -r distr
+CALL pyinstaller --onefile --distpath "distr" --clean -w logger.py
+rm -r build
+rm -r __pycache__
+rm logger.spec
+PAUSE

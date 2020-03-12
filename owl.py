@@ -32,21 +32,21 @@ class TaskBarApp(wx.Frame):
         wx.Frame.__init__(self, parent, -1, title, size=(1, 1),
                           style=wx.FRAME_NO_TASKBAR | wx.NO_FULL_REPAINT_ON_RESIZE)
 
-        if getattr(sys, 'frozen', False):
-            self.enabled_icon = wx.Icon(
-                os.path.join(sys._MEIPASS, 'logon.ico'))
-            self.disabled_icon = wx.Icon(
-                os.path.join(sys._MEIPASS, 'logoff.ico'))
-        else:
-            self.enabled_icon = wx.Icon(
-                os.path.abspath('logon.ico'))
-            self.disabled_icon = wx.Icon(
-                os.path.abspath('logoff.ico'))
+        # if getattr(sys, 'frozen', False):
+        #     self.enabled_icon = wx.Icon(
+        #         os.path.join(sys._MEIPASS, 'logon.ico'))
+        #     self.disabled_icon = wx.Icon(
+        #         os.path.join(sys._MEIPASS, 'logoff.ico'))
+        # else:
+        #     self.enabled_icon = wx.Icon(
+        #         os.path.abspath('logon.ico'))
+        #     self.disabled_icon = wx.Icon(
+        #         os.path.abspath('logoff.ico'))
 
-        self.tbicon = wx.adv.TaskBarIcon()
-        self.tbicon.SetIcon(self.enabled_icon, 'Logging')
-        self.tbicon.Bind(wx.adv.EVT_TASKBAR_LEFT_DCLICK, self.OnTaskBarLeftDClick)
-        self.tbicon.Bind(wx.adv.EVT_TASKBAR_RIGHT_UP, self.OnTaskBarRightClick)
+        # self.tbicon = wx.adv.TaskBarIcon()
+        # self.tbicon.SetIcon(self.enabled_icon, 'Logging')
+        # self.tbicon.Bind(wx.adv.EVT_TASKBAR_LEFT_DCLICK, self.OnTaskBarLeftDClick)
+        # self.tbicon.Bind(wx.adv.EVT_TASKBAR_RIGHT_UP, self.OnTaskBarRightClick)
 
         # repeating timer
         self.timer_running = True
@@ -76,18 +76,18 @@ class TaskBarApp(wx.Frame):
         if self.timer_running:
             self.StopTimer()
             self.timer_running = False
-            self.tbicon.SetIcon(self.disabled_icon, 'Not Logging')
+            # self.tbicon.SetIcon(self.disabled_icon, 'Not Logging')
 
         else:
             self.RestartTimer()
             self.timer_running = True
-            self.tbicon.SetIcon(self.enabled_icon, 'Logging')
+            # self.tbicon.SetIcon(self.enabled_icon, 'Logging')
 
     def OnTaskBarRightClick(self, evt):
         """Right click in the taskbar shuts down the application"""
         logwrite.write(dict(log_message="user shutdown, right clicked"), self.logfile)
         self.StopTimer()
-        self.tbicon.Destroy()
+        # self.tbicon.Destroy()
         self.Close(True)
         wx.Exit()
 
